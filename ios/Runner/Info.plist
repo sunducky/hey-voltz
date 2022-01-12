@@ -26,6 +26,11 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSLocationUsageDescription</key>
+	<string>This app uses location to show you the nearest stations.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app uses location to show you the nearest stations.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>	
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
