@@ -57,3 +57,9 @@ Future<Map<String, double>> fetchPersistedLatLng() async {
     'longitude': prefs.getDouble('longtitude') ?? 0
   };
 }
+
+Future<void> clearUserData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  prefs.clear();
+}

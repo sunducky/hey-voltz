@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
+import 'package:hey_voltz/screens/screen_splash.dart';
 import 'package:hey_voltz/screens/stations/screen_stations.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/button.dart';
+import 'package:material_dialogs/material_dialogs.dart';
 
 class ProfileFragment extends StatefulWidget {
   ProfileFragment({Key? key}) : super(key: key);
@@ -74,7 +76,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onTap: () {},
+                onTap: () => showLogoutDialog(),
               )
             ],
           ),
@@ -256,5 +258,40 @@ class _ProfileFragmentState extends State<ProfileFragment> {
         ],
       ),
     );
+  }
+
+  showLogoutDialog() {
+    Dialogs.bottomMaterialDialog(
+        context: context,
+        title: 'Log out?',
+        msg:
+            'Logging out will make you lose your data. Do you still want to continue?',
+        actions: [
+          TextButton(
+              onPressed: () {
+                clearUserData();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => SplashScreen()),
+                    (route) => false);
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+              )),
+          TextButton(
+              onPressed: () {
+                //ignore:avoid_print
+                print('Cancelled');
+              },
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+              )),
+        ]);
   }
 }

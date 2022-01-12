@@ -19,6 +19,7 @@ dependencies:
   google_maps_flutter: ^2.1.1
   json_annotation: ^4.4.0
   location: ^4.3.0
+  material_dialogs: ^1.1.1
   path_provider: ^2.0.8
   provider: ^6.0.1
   shared_preferences: ^2.0.11
