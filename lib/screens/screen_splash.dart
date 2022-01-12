@@ -30,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   checkPrefs() async {
-    //Get users current location first
-    await Geolocator.requestPermission().catchError((onError) {
+    //Request user permission for location
+    await Geolocator.requestPermission().catchError((e) {
       SystemNavigator.pop();
     });
     var pos = await Geolocator.getCurrentPosition(
