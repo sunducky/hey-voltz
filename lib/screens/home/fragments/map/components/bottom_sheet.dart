@@ -5,7 +5,9 @@ import 'package:hey_voltz/values/drawables.dart';
 import 'package:hey_voltz/widgets/button.dart';
 
 Material buildBottomSheet(double deviceWidth,
-    {required var station, required Function() onAddToFavorite}) {
+    {required var station,
+    required Function() onDirectionsTap,
+    required Function() onAddToFavorite}) {
   return Material(
     borderRadius: const BorderRadius.only(
       topLeft: Radius.circular(20),
@@ -169,7 +171,7 @@ Material buildBottomSheet(double deviceWidth,
             ],
           ),
           const Spacer(),
-          // ButtonPrimary(label: 'Directions', onTap: () {}),
+          ButtonPrimary(label: 'Directions', onTap: onDirectionsTap),
         ],
       ),
     ),

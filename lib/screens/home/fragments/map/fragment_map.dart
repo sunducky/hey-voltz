@@ -5,6 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hey_voltz/api/api_service.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
+import 'package:hey_voltz/screens/home/fragments/map/model/direction_model.dart';
+import 'package:hey_voltz/screens/home/fragments/map/repository/direction_repository.dart';
 import 'package:hey_voltz/screens/stations/screen_stations.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/values/drawables.dart';
@@ -40,6 +42,7 @@ class _MapFragmentState extends State<MapFragment> {
   var _initialCameraPosition;
 
   late GoogleMapController _googleMapController;
+  Directions? _info;
 
   int markerID = 1;
 
@@ -61,9 +64,7 @@ class _MapFragmentState extends State<MapFragment> {
     super.initState();
     fetchStations();
     fetchCurrentLocation();
-    //TODO JUST RUN APP
-    //to test the show station dialog info after a delat
-    //Hope fully it should be done loading everything on the map and display this
+    _info = null;
     Future.delayed(const Duration(seconds: 3)).then((value) {
       if (widget.station != null) {
         showStationInfo(widget.station);
@@ -81,6 +82,7 @@ class _MapFragmentState extends State<MapFragment> {
       );
     } else {
       return Stack(
+        alignment: Alignment.topCenter,
         children: [
           GoogleMap(
             initialCameraPosition: _initialCameraPosition,
@@ -88,14 +90,53 @@ class _MapFragmentState extends State<MapFragment> {
             zoomControlsEnabled: false,
             compassEnabled: true,
             myLocationEnabled: true,
+            polylines: {
+              if (_info != null)
+                Polyline(
+                  polylineId: const PolylineId('overview_polyline'),
+                  color: colorAccent,
+                  width: 5,
+                  points: _info!.polylinePoints
+                      .map((e) => LatLng(e.latitude, e.longitude))
+                      .toList(),
+                )
+            },
             onMapCreated: (controller) => _googleMapController = controller,
             markers: _markers,
           ),
+          buildDistanceBar(),
           buildTopBar(deviceWidth),
           // buildRescanButton(),
           buildFloatingButton(context, deviceWidth, deviceHeight)
         ],
       );
+    }
+  }
+
+  buildDistanceBar() {
+    if (_info != null) {
+      return Positioned(
+        top: 20.0,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12.0),
+          decoration: BoxDecoration(
+              color: colorPrimary,
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(6, 0),
+                    blurRadius: 6.0)
+              ]),
+          child: Text('${_info!.totalDistance}, ${_info!.totalDuration}',
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              )),
+        ),
+      );
+    } else {
+      return const SizedBox();
     }
   }
 
@@ -154,8 +195,9 @@ class _MapFragmentState extends State<MapFragment> {
         child: GestureDetector(
           onTap: () async {
             await fetchCurrentLocation();
-            _googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(_initialCameraPosition));
+            _googleMapController.animateCamera(_info != null
+                ? CameraUpdate.newLatLngBounds(_info!.bounds, 100.0)
+                : CameraUpdate.newCameraPosition(_initialCameraPosition));
           },
           child: const Center(
             child: Icon(
@@ -228,7 +270,7 @@ class _MapFragmentState extends State<MapFragment> {
   fetchStations() async {
     // make sure to initialize before map loading
     await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(100, 100)), imgMarker)
+            const ImageConfiguration(size: Size(60, 60)), imgMarker)
         .then((d) {
       customIcon = d;
     });
@@ -294,6 +336,7 @@ class _MapFragmentState extends State<MapFragment> {
         builder: (context) {
           return buildBottomSheet(deviceWidth,
               station: station,
+              onDirectionsTap: () => getDirections(station),
               onAddToFavorite: () => addToFavorites(station['id']));
         });
   }
@@ -322,6 +365,24 @@ class _MapFragmentState extends State<MapFragment> {
       //ignore:avoid_print
       print('Err while addFav -> ' + err.runtimeType.toString());
       Toasty(context).showToastErrorMessage(message: 'Unexpected error');
+    });
+  }
+
+  getDirections(var station) async {
+    var pos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    //Get Directions
+    var origin = LatLng(pos.latitude, pos.longitude);
+    var destination = LatLng(station['lat'], station['lng']);
+
+    await DirectionsRepository()
+        .getDirections(origin: origin, destination: destination)
+        .then((value) {
+      setState(() {
+        _info = value;
+      });
+    }).catchError((err) {
+      print('Err -- ' + err.runtimeType.toString());
     });
   }
 }
