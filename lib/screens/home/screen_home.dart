@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hey_voltz/helpers/prefs.dart';
 // import 'package:hey_voltz/screens/home/fragments/charge/fragment_charge.dart';
 // import 'package:hey_voltz/screens/home/fragments/home/fragment_home.dart';
 import 'package:hey_voltz/screens/home/fragments/map/fragment_map.dart';
@@ -60,8 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedItemColor: colorPrimary,
       elevation: 2,
       currentIndex: activeIndex,
-      onTap: (index) {
+      onTap: (index) async {
+        var pos = await fetchPersistedLatLng();
         setState(() {
+          widget.station = null;
+          widget.latitude = pos['latitude']!;
+          widget.longitude = pos['longitude']!;
           activeIndex = index;
         });
       },
