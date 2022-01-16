@@ -341,6 +341,17 @@ class _MapFragmentState extends State<MapFragment> {
         });
   }
 
+  showSelectedStationInfo(station) {
+    showBottomSheet(
+        context: context,
+        builder: (context) {
+          return buildBottomSheetForDirection(
+            deviceWidth,
+            station: station,
+          );
+        });
+  }
+
   addToFavorites(int id) async {
     String token = await fetchPersistedToken();
     //
