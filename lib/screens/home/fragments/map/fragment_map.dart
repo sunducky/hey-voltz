@@ -67,6 +67,7 @@ class _MapFragmentState extends State<MapFragment> {
     _info = null;
     Future.delayed(const Duration(seconds: 3)).then((value) {
       if (widget.station != null) {
+        fetchStationLocation();
         showStationInfo(widget.station);
       }
     });
@@ -259,9 +260,20 @@ class _MapFragmentState extends State<MapFragment> {
   Future<void> fetchCurrentLocation() async {
     var pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
+
     _initialCameraPosition =
         CameraPosition(target: LatLng(pos.latitude, pos.longitude), zoom: 17.5);
     await persistLatLng(pos.latitude, pos.longitude);
+    setState(() {
+      flag = true;
+    });
+  }
+
+  Future<void> fetchStationLocation() async {
+    var stationPos = CameraPosition(
+        target: LatLng(widget.latitude, widget.longitude), zoom: 17.5);
+    _googleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(stationPos));
     setState(() {
       flag = true;
     });
