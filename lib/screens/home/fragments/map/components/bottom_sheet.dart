@@ -68,9 +68,10 @@ Material buildBottomSheetForDirection(
                 const SizedBox(width: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(svgDistance),
+                    const SizedBox(height: 5),
                     Text(
                       '${station['distance']} km',
                       style: const TextStyle(
@@ -173,9 +174,10 @@ Material buildBottomSheet(double deviceWidth,
                 const SizedBox(width: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(svgDistance),
+                    const SizedBox(height: 5),
                     Text(
                       '${station['distance']} km',
                       style: const TextStyle(
