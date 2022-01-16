@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hey_voltz/api/api_service.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/api/dto/response.dart';
@@ -232,7 +233,8 @@ class _StationsScreenState extends State<StationsScreen> {
                                           ['address'],
                                       state: 'Kaduna',
                                       country: 'Nigeria',
-                                      distance: '1.3km'),
+                                      distance: favorites[index]['station']
+                                          ['distance']),
                                 ),
                               );
                             })
@@ -254,6 +256,7 @@ class _StationsScreenState extends State<StationsScreen> {
 
   fetchFavorites() async {
     var token = await fetchPersistedToken();
+    var pos = await fetchPersistedLatLng();
     await Provider.of<ApiService>(context, listen: false)
         .getFavoriteStations(token)
         .then((response) {
@@ -265,6 +268,16 @@ class _StationsScreenState extends State<StationsScreen> {
         Navigator.pop(context);
       } else {
         //SetState
+        for (var item in response.body) {
+          print(item.toString());
+          item['station']['distance'] = (Geolocator.distanceBetween(
+                      pos['latitude']!,
+                      pos['longitude']!,
+                      item['station']['lat'],
+                      item['station']['lng']) /
+                  1000)
+              .toStringAsFixed(2);
+        }
         setState(() {
           isApiLoading = false;
           favorites = response.body;

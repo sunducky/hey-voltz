@@ -71,9 +71,9 @@ Material buildBottomSheetForDirection(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(svgDistance),
-                    const Text(
-                      '1.3km',
-                      style: TextStyle(
+                    Text(
+                      '${station['distance']} km',
+                      style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
@@ -176,9 +176,9 @@ Material buildBottomSheet(double deviceWidth,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(svgDistance),
-                    const Text(
-                      '1.3km',
-                      style: TextStyle(
+                    Text(
+                      '${station['distance']} km',
+                      style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,

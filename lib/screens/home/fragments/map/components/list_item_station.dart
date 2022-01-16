@@ -67,17 +67,18 @@ class _StationListItemState extends State<StationListItem> {
           const Spacer(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // SvgPicture.asset(svgDistance),
-              // Text(
-              //   widget.distance,
-              //   style: const TextStyle(
-              //     fontSize: 10,
-              //     fontWeight: FontWeight.bold,
-              //     color: Colors.black54,
-              //   ),
-              // ),
+              SvgPicture.asset(svgDistance),
+              const SizedBox(height: 5),
+              Text(
+                '${widget.distance} km',
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
+              ),
             ],
           ),
         ],

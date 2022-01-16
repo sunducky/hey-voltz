@@ -334,7 +334,7 @@ class _MapFragmentState extends State<MapFragment> {
     });
   }
 
-  showStationInfo(station) {
+  showStationInfo(station) async {
     // showBottomSheet(
     //     context: context,
 
@@ -343,6 +343,11 @@ class _MapFragmentState extends State<MapFragment> {
     //     station: station,
     //     onAddToFavorite: () => addToFavorites(station['id']));
     //     });
+    var pos = await fetchPersistedLatLng();
+    station['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                pos['longitude']!, station['lat'], station['lng']) /
+            1000)
+        .toStringAsFixed(2);
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -353,7 +358,12 @@ class _MapFragmentState extends State<MapFragment> {
         });
   }
 
-  showSelectedStationInfo(station) {
+  showSelectedStationInfo(station) async {
+    var pos = await fetchPersistedLatLng();
+    station['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                pos['longitude']!, station['lat'], station['lng']) /
+            1000)
+        .toStringAsFixed(2);
     showBottomSheet(
         context: context,
         builder: (context) {
