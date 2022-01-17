@@ -257,7 +257,8 @@ class _StationsScreenState extends State<StationsScreen> {
                                       address: favorites[index]['station']
                                           ['address'],
                                       state: 'Kaduna',
-                                      imageUrl: favorites[index]['image'],
+                                      imageUrl:
+                                          '${favorites[index]['station']['image']}',
                                       country: 'Nigeria',
                                       distance: favorites[index]['station']
                                           ['distance']),
