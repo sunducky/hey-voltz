@@ -165,6 +165,7 @@ class _StationsScreenState extends State<StationsScreen> {
                       child: StationListItem(
                           name: stations[index]['name'],
                           address: stations[index]['address'],
+                          imageUrl: stations[index]['image'],
                           state: 'Kaduna',
                           country: 'Nigeria',
                           distance: stations[index]['distance']),
@@ -256,6 +257,7 @@ class _StationsScreenState extends State<StationsScreen> {
                                       address: favorites[index]['station']
                                           ['address'],
                                       state: 'Kaduna',
+                                      imageUrl: favorites[index]['image'],
                                       country: 'Nigeria',
                                       distance: favorites[index]['station']
                                           ['distance']),

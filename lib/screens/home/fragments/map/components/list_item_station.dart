@@ -6,7 +6,7 @@ import 'package:hey_voltz/values/drawables.dart';
 class StationListItem extends StatefulWidget {
   StationListItem(
       {Key? key,
-      this.imageUrl,
+      required this.imageUrl,
       required this.name,
       required this.address,
       required this.state,
@@ -14,7 +14,7 @@ class StationListItem extends StatefulWidget {
       required this.distance})
       : super(key: key);
 
-  String? imageUrl;
+  String imageUrl;
   String name;
   String address;
   String state;
@@ -37,7 +37,11 @@ class _StationListItemState extends State<StationListItem> {
           Container(
             height: 70,
             width: 90,
-            color: colorPrimary,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: colorAccentTwo,
+              image: DecorationImage(image: NetworkImage(widget.imageUrl)),
+            ),
           ),
           const SizedBox(width: 10),
           Column(
