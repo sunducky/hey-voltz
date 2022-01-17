@@ -283,6 +283,7 @@ class _ProfileFragmentState extends State<ProfileFragment> {
               )),
           TextButton(
               onPressed: () {
+                Navigator.pop(context);
                 //ignore:avoid_print
                 print('Cancelled');
               },
