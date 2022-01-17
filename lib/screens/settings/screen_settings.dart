@@ -49,10 +49,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ListTile(
           onTap: () {},
           leading: const Icon(
-            Icons.person,
+            Icons.lock_rounded,
           ),
           title: const Text(
-            'Account',
+            'Change Password',
           ),
           trailing: const Icon(
             Icons.chevron_right_rounded,
