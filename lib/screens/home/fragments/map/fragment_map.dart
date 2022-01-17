@@ -425,6 +425,7 @@ class _MapFragmentState extends State<MapFragment> {
       //TODO animaate camera
       _googleMapController
           .animateCamera(CameraUpdate.newLatLngBounds(_info!.bounds, 100.0));
+      // showSelectedStationInfo(station);
     }).catchError((err) {
       print('Err -- ' + err.runtimeType.toString());
     });
