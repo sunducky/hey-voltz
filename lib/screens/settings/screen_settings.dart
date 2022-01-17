@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hey_voltz/screens/settings/screen_change_password.dart';
 import 'package:hey_voltz/values/colors.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -47,7 +48,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         const SizedBox(height: 40),
         ListTile(
-          onTap: () {},
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (_) => ChangePasswordScreen())),
           leading: const Icon(
             Icons.lock_rounded,
           ),
