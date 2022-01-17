@@ -277,10 +277,16 @@ class _StationsScreenState extends State<StationsScreen> {
                       item['station']['lng']) /
                   1000)
               .toStringAsFixed(2);
+          print('DUCKY -- ' + item['station']['distance']);
+          print('DUCKY -- pos ' + pos.toString());
+          print('DUCKY -- pos ' +
+              item['station']['lat'].toString() +
+              ' ' +
+              item['station']['lng'].toString());
+          favorites.add(item);
         }
         setState(() {
           isApiLoading = false;
-          favorites = response.body;
         });
       }
     }).catchError((err) {

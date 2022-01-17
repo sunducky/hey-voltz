@@ -348,6 +348,12 @@ class _MapFragmentState extends State<MapFragment> {
                 pos['longitude']!, station['lat'], station['lng']) /
             1000)
         .toStringAsFixed(2);
+    print('DUCKY -- ' + station['distance']);
+    print('DUCKY -- ' + pos.toString());
+    print('DUCKY -- pos ' +
+        station['lat'].toString() +
+        ' ' +
+        station['lng'].toString());
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -364,6 +370,7 @@ class _MapFragmentState extends State<MapFragment> {
                 pos['longitude']!, station['lat'], station['lng']) /
             1000)
         .toStringAsFixed(2);
+    print('DUCKY -- ' + station['distance']);
     showBottomSheet(
         context: context,
         builder: (context) {
