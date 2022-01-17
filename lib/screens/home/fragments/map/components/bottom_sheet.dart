@@ -4,6 +4,93 @@ import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/values/drawables.dart';
 import 'package:hey_voltz/widgets/button.dart';
 
+Material buildBottomSheetForDirection(
+  double deviceWidth, {
+  required var station,
+}) {
+  return Material(
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(20),
+      topRight: Radius.circular(20),
+    ),
+    elevation: 10,
+    child: Container(
+      width: deviceWidth,
+      padding: const EdgeInsets.all(15),
+      height: 325,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          SizedBox(
+            height: 80,
+            child: Row(
+              children: [
+                Container(
+                  width: 90,
+                  height: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: colorAccentTwo,
+                      image: DecorationImage(
+                          image: NetworkImage(station['image']))),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        station['name'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        station['address'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                      // const Text(
+                      //   '_state, _country',
+                      //   style: TextStyle(
+                      //     fontWeight: FontWeight.bold,
+                      //     fontSize: 10,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(svgDistance),
+                    const SizedBox(height: 5),
+                    Text(
+                      '${station['distance']} km',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 Material buildBottomSheet(double deviceWidth,
     {required var station,
     required Function() onDirectionsTap,
@@ -87,12 +174,13 @@ Material buildBottomSheet(double deviceWidth,
                 const SizedBox(width: 15),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(svgDistance),
-                    const Text(
-                      '1.3km',
-                      style: TextStyle(
+                    const SizedBox(height: 5),
+                    Text(
+                      '${station['distance']} km',
+                      style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,

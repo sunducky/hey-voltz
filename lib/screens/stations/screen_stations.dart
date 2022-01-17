@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hey_voltz/api/api_service.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/api/dto/response.dart';
@@ -86,8 +87,20 @@ class _StationsScreenState extends State<StationsScreen> {
                         children: [
                           Expanded(
                             child: TextField(
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.streetAddress,
                               maxLines: 1,
+                              onChanged: (value) {
+                                if (value.isEmpty) {
+                                  setState(() {
+                                    stations = [];
+                                    searchQuery = '';
+                                    return;
+                                  });
+                                } else {
+                                  searchQuery = value;
+                                  fetchStations();
+                                }
+                              },
                               onSubmitted: (value) {
                                 searchQuery = value;
                                 fetchStations();
@@ -138,12 +151,25 @@ class _StationsScreenState extends State<StationsScreen> {
                   shrinkWrap: true,
                   itemCount: stations.length,
                   itemBuilder: (context, index) {
-                    return StationListItem(
-                        name: stations[index]['name'],
-                        address: stations[index]['address'],
-                        state: 'Kaduna',
-                        country: 'Nigeria',
-                        distance: '1.3km');
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => HomeScreen(
+                              latitude: favorites[index]['station']['lat'],
+                              longitude: favorites[index]['station']['lng'],
+                              screenIndex: 0, //This opens up the map fragment
+                              station: favorites[index]['station'],
+                            ),
+                          )),
+                      child: StationListItem(
+                          name: stations[index]['name'],
+                          address: stations[index]['address'],
+                          imageUrl: stations[index]['image'],
+                          state: 'Kaduna',
+                          country: 'Nigeria',
+                          distance: stations[index]['distance']),
+                    );
                   })
             ],
           ),
@@ -231,8 +257,10 @@ class _StationsScreenState extends State<StationsScreen> {
                                       address: favorites[index]['station']
                                           ['address'],
                                       state: 'Kaduna',
+                                      imageUrl: favorites[index]['image'],
                                       country: 'Nigeria',
-                                      distance: '1.3km'),
+                                      distance: favorites[index]['station']
+                                          ['distance']),
                                 ),
                               );
                             })
@@ -254,6 +282,7 @@ class _StationsScreenState extends State<StationsScreen> {
 
   fetchFavorites() async {
     var token = await fetchPersistedToken();
+    var pos = await fetchPersistedLatLng();
     await Provider.of<ApiService>(context, listen: false)
         .getFavoriteStations(token)
         .then((response) {
@@ -265,9 +294,25 @@ class _StationsScreenState extends State<StationsScreen> {
         Navigator.pop(context);
       } else {
         //SetState
+        for (var item in response.body) {
+          print(item.toString());
+          item['station']['distance'] = (Geolocator.distanceBetween(
+                      pos['latitude']!,
+                      pos['longitude']!,
+                      item['station']['lat'],
+                      item['station']['lng']) /
+                  1000)
+              .toStringAsFixed(2);
+          print('DUCKY -- ' + item['station']['distance']);
+          print('DUCKY -- pos ' + pos.toString());
+          print('DUCKY -- pos ' +
+              item['station']['lat'].toString() +
+              ' ' +
+              item['station']['lng'].toString());
+          favorites.add(item);
+        }
         setState(() {
           isApiLoading = false;
-          favorites = response.body;
         });
       }
     }).catchError((err) {
@@ -278,8 +323,10 @@ class _StationsScreenState extends State<StationsScreen> {
 
   fetchStations() async {
     var token = await fetchPersistedToken();
+    var pos = await fetchPersistedLatLng();
     searchQuery = searchController.text.toString();
     var latlng = await fetchPersistedLatLng();
+    stations = [];
 
     await Provider.of<ApiService>(context, listen: false)
         .getStationsByNaame(token,
@@ -292,8 +339,14 @@ class _StationsScreenState extends State<StationsScreen> {
         Toasty(context).showToastErrorMessage(
             message: 'Error fetching stations. Try again.');
       } else {
+        for (var item in response.body) {
+          item['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                      pos['longitude']!, item['lat'], item['lng']) /
+                  1000)
+              .toStringAsFixed(2);
+          stations.add(item);
+        }
         setState(() {
-          stations = response.body;
           isApiLoading = false;
         });
       }

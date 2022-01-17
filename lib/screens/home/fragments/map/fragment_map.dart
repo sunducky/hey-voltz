@@ -67,6 +67,7 @@ class _MapFragmentState extends State<MapFragment> {
     _info = null;
     Future.delayed(const Duration(seconds: 3)).then((value) {
       if (widget.station != null) {
+        fetchStationLocation();
         showStationInfo(widget.station);
       }
     });
@@ -259,9 +260,20 @@ class _MapFragmentState extends State<MapFragment> {
   Future<void> fetchCurrentLocation() async {
     var pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
+
     _initialCameraPosition =
         CameraPosition(target: LatLng(pos.latitude, pos.longitude), zoom: 17.5);
     await persistLatLng(pos.latitude, pos.longitude);
+    setState(() {
+      flag = true;
+    });
+  }
+
+  Future<void> fetchStationLocation() async {
+    var stationPos = CameraPosition(
+        target: LatLng(widget.latitude, widget.longitude), zoom: 17.5);
+    _googleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(stationPos));
     setState(() {
       flag = true;
     });
@@ -322,7 +334,7 @@ class _MapFragmentState extends State<MapFragment> {
     });
   }
 
-  showStationInfo(station) {
+  showStationInfo(station) async {
     // showBottomSheet(
     //     context: context,
 
@@ -331,6 +343,17 @@ class _MapFragmentState extends State<MapFragment> {
     //     station: station,
     //     onAddToFavorite: () => addToFavorites(station['id']));
     //     });
+    var pos = await fetchPersistedLatLng();
+    station['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                pos['longitude']!, station['lat'], station['lng']) /
+            1000)
+        .toStringAsFixed(2);
+    print('DUCKY -- ' + station['distance']);
+    print('DUCKY -- ' + pos.toString());
+    print('DUCKY -- pos ' +
+        station['lat'].toString() +
+        ' ' +
+        station['lng'].toString());
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -338,6 +361,23 @@ class _MapFragmentState extends State<MapFragment> {
               station: station,
               onDirectionsTap: () => getDirections(station),
               onAddToFavorite: () => addToFavorites(station['id']));
+        });
+  }
+
+  showSelectedStationInfo(station) async {
+    var pos = await fetchPersistedLatLng();
+    station['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                pos['longitude']!, station['lat'], station['lng']) /
+            1000)
+        .toStringAsFixed(2);
+    print('DUCKY -- ' + station['distance']);
+    showBottomSheet(
+        context: context,
+        builder: (context) {
+          return buildBottomSheetForDirection(
+            deviceWidth,
+            station: station,
+          );
         });
   }
 
