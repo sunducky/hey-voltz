@@ -87,8 +87,20 @@ class _StationsScreenState extends State<StationsScreen> {
                         children: [
                           Expanded(
                             child: TextField(
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.streetAddress,
                               maxLines: 1,
+                              onChanged: (value) {
+                                if (value.isEmpty) {
+                                  setState(() {
+                                    stations = [];
+                                    searchQuery = '';
+                                    return;
+                                  });
+                                } else {
+                                  searchQuery = value;
+                                  fetchStations();
+                                }
+                              },
                               onSubmitted: (value) {
                                 searchQuery = value;
                                 fetchStations();
@@ -139,12 +151,24 @@ class _StationsScreenState extends State<StationsScreen> {
                   shrinkWrap: true,
                   itemCount: stations.length,
                   itemBuilder: (context, index) {
-                    return StationListItem(
-                        name: stations[index]['name'],
-                        address: stations[index]['address'],
-                        state: 'Kaduna',
-                        country: 'Nigeria',
-                        distance: '1.3km');
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => HomeScreen(
+                              latitude: favorites[index]['station']['lat'],
+                              longitude: favorites[index]['station']['lng'],
+                              screenIndex: 0, //This opens up the map fragment
+                              station: favorites[index]['station'],
+                            ),
+                          )),
+                      child: StationListItem(
+                          name: stations[index]['name'],
+                          address: stations[index]['address'],
+                          state: 'Kaduna',
+                          country: 'Nigeria',
+                          distance: stations[index]['distance']),
+                    );
                   })
             ],
           ),
@@ -297,8 +321,10 @@ class _StationsScreenState extends State<StationsScreen> {
 
   fetchStations() async {
     var token = await fetchPersistedToken();
+    var pos = await fetchPersistedLatLng();
     searchQuery = searchController.text.toString();
     var latlng = await fetchPersistedLatLng();
+    stations = [];
 
     await Provider.of<ApiService>(context, listen: false)
         .getStationsByNaame(token,
@@ -311,8 +337,14 @@ class _StationsScreenState extends State<StationsScreen> {
         Toasty(context).showToastErrorMessage(
             message: 'Error fetching stations. Try again.');
       } else {
+        for (var item in response.body) {
+          item['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                      pos['longitude']!, item['lat'], item['lng']) /
+                  1000)
+              .toStringAsFixed(2);
+          stations.add(item);
+        }
         setState(() {
-          stations = response.body;
           isApiLoading = false;
         });
       }
