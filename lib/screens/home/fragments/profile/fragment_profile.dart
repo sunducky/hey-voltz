@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
 import 'package:hey_voltz/screens/screen_splash.dart';
+import 'package:hey_voltz/screens/settings/screen_settings.dart';
 import 'package:hey_voltz/screens/stations/screen_stations.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/button.dart';
@@ -112,11 +113,12 @@ class _ProfileFragmentState extends State<ProfileFragment> {
         //   icon: Icons.share,
         //   onTap: () {},
         // ),
-        // buildListTile(
-        //   title: 'Settings',
-        //   icon: Icons.settings_rounded,
-        //   onTap: () {},
-        // )
+        buildListTile(
+          title: 'Settings',
+          icon: Icons.settings_rounded,
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (_) => SettingsScreen())),
+        )
       ],
     );
   }
