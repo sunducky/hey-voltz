@@ -156,10 +156,10 @@ class _StationsScreenState extends State<StationsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => HomeScreen(
-                              latitude: favorites[index]['station']['lat'],
-                              longitude: favorites[index]['station']['lng'],
+                              latitude: stations[index]['lat'],
+                              longitude: stations[index]['lng'],
                               screenIndex: 0, //This opens up the map fragment
-                              station: favorites[index]['station'],
+                              station: stations[index],
                             ),
                           )),
                       child: StationListItem(
@@ -257,7 +257,8 @@ class _StationsScreenState extends State<StationsScreen> {
                                       address: favorites[index]['station']
                                           ['address'],
                                       state: 'Kaduna',
-                                      imageUrl: favorites[index]['image'],
+                                      imageUrl:
+                                          '${favorites[index]['station']['image']}',
                                       country: 'Nigeria',
                                       distance: favorites[index]['station']
                                           ['distance']),

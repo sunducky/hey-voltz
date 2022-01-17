@@ -421,6 +421,11 @@ class _MapFragmentState extends State<MapFragment> {
       setState(() {
         _info = value;
       });
+      Navigator.pop(context);
+      //TODO animaate camera
+      _googleMapController
+          .animateCamera(CameraUpdate.newLatLngBounds(_info!.bounds, 100.0));
+      // showSelectedStationInfo(station);
     }).catchError((err) {
       print('Err -- ' + err.runtimeType.toString());
     });
