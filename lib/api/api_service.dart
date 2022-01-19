@@ -45,6 +45,9 @@ abstract class ApiService extends ChopperService {
       @Query('lat') required String lat,
       @Query('lng') required String lng});
 
+  @Post(path: '/change-password')
+  Future<Response> changePassword(
+      @Header('authorization') String token, @Body() body);
   static ApiService create() {
     final client = ChopperClient(
       baseUrl: 'https://client.mrteey.com',

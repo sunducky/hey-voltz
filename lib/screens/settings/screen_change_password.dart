@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hey_voltz/api/api_service.dart';
+import 'package:hey_voltz/helpers/prefs.dart';
 import 'package:hey_voltz/screens/auth/components/textfield.dart';
+import 'package:hey_voltz/screens/auth/screen_login.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/button.dart';
+import 'package:hey_voltz/widgets/toasty.dart';
+import 'package:provider/provider.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   ChangePasswordScreen({Key? key}) : super(key: key);
@@ -98,5 +103,50 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
   }
 
-  changePassword() async {}
+  changePassword() async {
+    String password = _passwordController.text;
+    String newPassword = _newPasswordController.text;
+    String confPassword = _confirmNewPasswordController.text;
+
+    if (newPassword != confPassword) {
+      Toasty(context).showToastErrorMessage(message: 'Passwords do not match');
+      return;
+    }
+
+    setState(() {
+      isApiLoading = true;
+    });
+
+    var token = await fetchPersistedToken();
+    var body = {
+      'old_password': password,
+      'new_password': newPassword,
+    };
+
+    await Provider.of<ApiService>(context, listen: false)
+        .changePassword(token, body)
+        .then((response) {
+      setState(() {
+        isApiLoading = false;
+      });
+      if (response.isSuccessful) {
+        Toasty(context)
+            .showToastSuccessMessage(message: 'Message changed successfully');
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+      } else {
+        //ignore:avoid_print
+        print('err -> ' + response.statusCode.toString());
+        Toasty(context)
+            .showToastErrorMessage(message: 'Old password is incorrect');
+      }
+    }).catchError((err) {
+      setState(() {
+        isApiLoading = false;
+      });
+      print(err.toString());
+      Toasty(context)
+          .showToastErrorMessage(message: 'Error while updating password');
+    });
+  }
 }
