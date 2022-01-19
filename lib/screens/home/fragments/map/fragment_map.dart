@@ -117,23 +117,43 @@ class _MapFragmentState extends State<MapFragment> {
   buildDistanceBar() {
     if (_info != null) {
       return Positioned(
-        top: 20.0,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12.0),
-          decoration: BoxDecoration(
-              color: colorPrimary,
-              borderRadius: BorderRadius.circular(20.0),
-              boxShadow: const [
-                BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(6, 0),
-                    blurRadius: 6.0)
-              ]),
-          child: Text('${_info!.totalDistance}, ${_info!.totalDuration}',
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.w600,
-              )),
+        top: 120.0,
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _info = null;
+            });
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12.0),
+            decoration: BoxDecoration(
+                color: colorAccent,
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(6, 0),
+                      blurRadius: 6.0)
+                ]),
+            child: Column(
+              children: [
+                Text('${_info!.totalDistance}, ${_info!.totalDuration}',
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    )),
+                const SizedBox(height: 10),
+                const Text(
+                  'Click to cancel',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       );
     } else {
@@ -290,30 +310,21 @@ class _MapFragmentState extends State<MapFragment> {
     //ignore: avoid_print
     print('error $token');
 
-    var latlng = await fetchPersistedLatLng();
+    var pos = await fetchPersistedLatLng();
 
     await Provider.of<ApiService>(context, listen: false)
         .getStations(
       token,
-      lat: latlng['lat'].toString(),
-      lng: latlng['lng'].toString(),
+      lat: pos['latitude'].toString(),
+      lng: pos['longitude'].toString(),
     )
         .then((response) {
-      print('wee - ${response.bodyString}');
-      print('wee - ${response.statusCode}');
       if (!response.isSuccessful) {
-        //ignore: avoid_print
-        print('Error Code ${response.statusCode}');
-        fetchStations();
-        return;
-        //
-        // Toasty(context)
-        //     .showToastErrorMessage(message: 'Something happened. restart app');
+        Toasty(context)
+            .showToastErrorMessage(message: 'Something happened. restart app');
       } else {
-        print('wee - success');
         stations = response.body;
         for (var item in response.body) {
-          print(item.toString());
           setState(() {
             _markers.add(Marker(
                 markerId: MarkerId('marker_id_$markerID'),
@@ -321,7 +332,7 @@ class _MapFragmentState extends State<MapFragment> {
                 icon: customIcon,
                 infoWindow: InfoWindow(
                   title: item['name'],
-                  // snippet: 'Click for more info',
+                  snippet: 'Click for more info',
                   onTap: () => showStationInfo(item),
                 )));
             markerID++;
