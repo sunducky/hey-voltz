@@ -47,14 +47,14 @@ Future<Map<String, String?>> fetchLoginCreds() async {
 Future<void> persistLatLng(double latitude, double longitude) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setDouble('latitude', latitude);
-  prefs.setDouble('longtitude', longitude);
+  prefs.setDouble('longitude', longitude);
 }
 
 Future<Map<String, double>> fetchPersistedLatLng() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return {
     'latitude': prefs.getDouble('latitude') ?? 0,
-    'longitude': prefs.getDouble('longtitude') ?? 0
+    'longitude': prefs.getDouble('longitude') ?? 0
   };
 }
 

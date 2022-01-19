@@ -18,9 +18,7 @@ abstract class ApiService extends ChopperService {
   //Endpoint for fetching stations
   @Get(path: '/stations')
   Future<Response> getStations(@Header('authorization') String token,
-      {@Query('query') String? query,
-      @Query('lat') required String lat,
-      @Query('lng') required String lng});
+      {@Query('lat') required String lat, @Query('lng') required String lng});
 
   //Endpoint for fetching favorite stations
   @Get(path: '/favorites')
