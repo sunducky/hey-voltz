@@ -131,11 +131,16 @@ class FundAmountScreenState extends State<FundAmountScreen> {
 
     await Provider.of<ApiService>(context, listen: false)
         .fundWallet(token!, body)
-        .then((response) {
+        .then((response) async {
       setState(() {
         isApiLoading = false;
       });
       if (response.isSuccessful) {
+        prefs!.walletBalance =
+            (prefs!.walletBalance! + amount / 100).toDouble();
+
+        await persistUserData(prefs!);
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
