@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
 import 'package:hey_voltz/screens/screen_splash.dart';
+import 'package:hey_voltz/screens/settings/screen_cards.dart';
 import 'package:hey_voltz/screens/settings/screen_settings.dart';
 import 'package:hey_voltz/screens/stations/screen_stations.dart';
 import 'package:hey_voltz/values/colors.dart';
@@ -192,7 +193,12 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                 width: 115,
                 child: ButtonPrimary(
                   label: 'fund wallet',
-                  onTap: () {},
+                  onTap: () {
+                    //I feel like take user to PayStack screen
+                    //Take user to screen to enter amount to fund
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => FundAmountScreen()));
+                  },
                 ),
               )),
             ),
@@ -299,7 +305,6 @@ class _ProfileFragmentState extends State<ProfileFragment> {
   }
 
   showReferralCode() {
-    //TODO show bottom sheet with code
     showModalBottomSheet(
         context: context,
         builder: (context) {

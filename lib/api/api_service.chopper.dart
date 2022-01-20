@@ -98,6 +98,32 @@ class _$ApiService extends ApiService {
   }
 
   @override
+  Future<Response<dynamic>> fundWallet(String token, dynamic body) {
+    final $url = '/api/wallet';
+    final $headers = {
+      'authorization': token,
+    };
+
+    final $body = body;
+    final $request =
+        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> fetchWalletInfo(String token, dynamic body) {
+    final $url = '/api/wallet';
+    final $headers = {
+      'authorization': token,
+    };
+
+    final $body = body;
+    final $request =
+        Request('GET', $url, client.baseUrl, body: $body, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> changePassword(String token, dynamic body) {
     final $url = '/api/change-password';
     final $headers = {

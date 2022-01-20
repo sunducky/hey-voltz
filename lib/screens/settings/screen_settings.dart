@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hey_voltz/screens/settings/screen_cards.dart';
 import 'package:hey_voltz/screens/settings/screen_change_password.dart';
 import 'package:hey_voltz/values/colors.dart';
 
@@ -12,7 +13,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: SafeArea(
             child: Column(
@@ -60,6 +60,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Icons.chevron_right_rounded,
           ),
         ),
+        // ListTile(
+        //   onTap: () => Navigator.push(context,
+        //       MaterialPageRoute(builder: (_) => ChangePasswordScreen())),
+        //   leading: const Icon(
+        //     Icons.credit_card_rounded,
+        //   ),
+        //   title: const Text(
+        //     'Manage saved cards',
+        //   ),
+        //   trailing: const Icon(
+        //     Icons.chevron_right_rounded,
+        //   ),
+        // ),
         ListTile(
           onTap: () {},
           leading: const Icon(Icons.headphones_rounded),
