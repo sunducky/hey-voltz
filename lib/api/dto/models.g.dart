@@ -11,6 +11,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       lastname: json['lastname'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
+      referralCode: json['referral_code'] as String?,
+      walletBalance: (json['wallet_balance'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -18,6 +20,8 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'lastname': instance.lastname,
       'email': instance.email,
       'phone': instance.phone,
+      'referral_code': instance.referralCode,
+      'wallet_balance': instance.walletBalance,
     };
 
 Station _$StationFromJson(Map<String, dynamic> json) => Station(

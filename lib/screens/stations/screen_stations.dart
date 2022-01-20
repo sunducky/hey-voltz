@@ -40,6 +40,7 @@ class _StationsScreenState extends State<StationsScreen> {
       fetchFavorites();
     } else {
       //do nothing...
+      fetchClosestStations();
     }
   }
 
@@ -94,6 +95,7 @@ class _StationsScreenState extends State<StationsScreen> {
                                   setState(() {
                                     stations = [];
                                     searchQuery = '';
+                                    fetchClosestStations();
                                     return;
                                   });
                                 } else {
@@ -326,13 +328,12 @@ class _StationsScreenState extends State<StationsScreen> {
     var token = await fetchPersistedToken();
     var pos = await fetchPersistedLatLng();
     searchQuery = searchController.text.toString();
-    var latlng = await fetchPersistedLatLng();
     stations = [];
 
     await Provider.of<ApiService>(context, listen: false)
         .getStationsByNaame(token,
-            lat: latlng['lat'].toString(),
-            lng: latlng['lng'].toString(),
+            lat: pos['latitude'].toString(),
+            lng: pos['longitude'].toString(),
             query: searchQuery)
         .then((response) {
       print(response.statusCode);
@@ -353,6 +354,33 @@ class _StationsScreenState extends State<StationsScreen> {
       }
     }).catchError((err) {
       print('Fav Error --> ' + err.runtimeType.toString());
+      Navigator.pop(context);
+    });
+  }
+
+  fetchClosestStations() async {
+    var token = await fetchPersistedToken();
+    var pos = await fetchPersistedLatLng();
+    stations = [];
+    await Provider.of<ApiService>(context, listen: false)
+        .getStations(token,
+            lat: pos['latitude'].toString(), lng: pos['longitude'].toString())
+        .then((response) {
+      for (var item in response.body) {
+        item['distance'] = (Geolocator.distanceBetween(pos['latitude']!,
+                    pos['longitude']!, item['lat'], item['lng']) /
+                1000)
+            .toStringAsFixed(2);
+        stations.add(item);
+      }
+      // stations.sort((a, b) => a.length.compareTo(b.length));
+      stations.sort((a, b) => a['distance'] < b['distance']); //Sorting
+      setState(() {
+        isApiLoading = false;
+      });
+    }).catchError((err) {
+      //ignore:avoid_print
+      print(err.runtimeType);
       Navigator.pop(context);
     });
   }

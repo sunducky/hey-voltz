@@ -18,9 +18,7 @@ abstract class ApiService extends ChopperService {
   //Endpoint for fetching stations
   @Get(path: '/stations')
   Future<Response> getStations(@Header('authorization') String token,
-      {@Query('query') String? query,
-      @Query('lat') required String lat,
-      @Query('lng') required String lng});
+      {@Query('lat') required String lat, @Query('lng') required String lng});
 
   //Endpoint for fetching favorite stations
   @Get(path: '/favorites')
@@ -47,6 +45,24 @@ abstract class ApiService extends ChopperService {
       @Query('lat') required String lat,
       @Query('lng') required String lng});
 
+  //WALLET ENDPOINTS
+  ///Endpoint for funding wallet. send 'reference' and 'amount'
+  @Post(path: '/wallet')
+  Future<Response> fundWallet(
+    @Header('authorization') String token,
+    @Body() body,
+  );
+
+  ///Endpoint for fetch wallet information. Balance, wallet_id and history[]
+  @Get(path: '/wallet')
+  Future<Response> fetchWalletInfo(
+    @Header('authorization') String token,
+    @Body() body,
+  );
+
+  @Post(path: '/change-password')
+  Future<Response> changePassword(
+      @Header('authorization') String token, @Body() body);
   static ApiService create() {
     final client = ChopperClient(
       baseUrl: 'https://client.mrteey.com',

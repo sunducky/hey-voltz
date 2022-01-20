@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_paystack_client/flutter_paystack_client.dart';
 import 'package:hey_voltz/api/api_service.dart';
 import 'package:hey_voltz/screens/screen_splash.dart';
 import 'package:provider/provider.dart';
+import '.env.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PaystackClient.initialize(testPublicKey);
   runApp(const MyApp());
 }
 

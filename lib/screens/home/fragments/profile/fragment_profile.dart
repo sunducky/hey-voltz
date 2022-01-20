@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
 import 'package:hey_voltz/screens/screen_splash.dart';
+import 'package:hey_voltz/screens/settings/screen_cards.dart';
+import 'package:hey_voltz/screens/settings/screen_settings.dart';
 import 'package:hey_voltz/screens/stations/screen_stations.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/button.dart';
@@ -107,16 +109,17 @@ class _ProfileFragmentState extends State<ProfileFragment> {
         //   icon: Icons.payment_rounded,
         //   onTap: () {},
         // ),
-        // buildListTile(
-        //   title: 'Referral code',
-        //   icon: Icons.share,
-        //   onTap: () {},
-        // ),
-        // buildListTile(
-        //   title: 'Settings',
-        //   icon: Icons.settings_rounded,
-        //   onTap: () {},
-        // )
+        buildListTile(
+          title: 'Referral code',
+          icon: Icons.all_inclusive_rounded,
+          onTap: () => showReferralCode(),
+        ),
+        buildListTile(
+          title: 'Settings',
+          icon: Icons.settings_rounded,
+          onTap: () => Navigator.push(
+              context, MaterialPageRoute(builder: (_) => SettingsScreen())),
+        )
       ],
     );
   }
@@ -160,15 +163,15 @@ class _ProfileFragmentState extends State<ProfileFragment> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    '₦0',
-                    style: TextStyle(
+                    '₦${user!.walletBalance}',
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'wallet balance',
                     style: TextStyle(
                       fontSize: 12,
@@ -190,7 +193,12 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                 width: 115,
                 child: ButtonPrimary(
                   label: 'fund wallet',
-                  onTap: () {},
+                  onTap: () {
+                    //I feel like take user to PayStack screen
+                    //Take user to screen to enter amount to fund
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => FundAmountScreen()));
+                  },
                 ),
               )),
             ),
@@ -294,5 +302,50 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                 ),
               )),
         ]);
+  }
+
+  showReferralCode() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Material(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            elevation: 10,
+            child: Container(
+              height: 200,
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Referral Code',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      '${user!.referralCode}',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

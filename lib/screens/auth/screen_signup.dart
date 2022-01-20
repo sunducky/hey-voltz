@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hey_voltz/api/api_service.dart';
+import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
 import 'package:hey_voltz/screens/home/screen_home.dart';
 import 'package:hey_voltz/values/colors.dart';
@@ -155,9 +156,12 @@ class _SignupScreenState extends State<SignupScreen> {
           return;
         }
       } else {
+        User user = User.fromJson(response.body['user']);
         Toasty(context)
             .showToastSuccessMessage(message: 'Account Created Successfully');
         await persistToken(response.body['token']);
+        await persistUserData(user);
+        await persistLoginCreds(email: email, password: password);
         var pos = await fetchPersistedLatLng();
         Navigator.pushAndRemoveUntil(
             context,

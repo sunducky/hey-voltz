@@ -17,6 +17,8 @@ Future<void> persistUserData(User user) async {
   prefs.setString('lastname', user.lastname!);
   prefs.setString('email', user.email!);
   prefs.setString('phone', user.phone!);
+  prefs.setString('referral_code', user.referralCode!);
+  prefs.setDouble('wallet_balance', user.walletBalance!);
 }
 
 Future<User> fetchUserData() async {
@@ -26,6 +28,8 @@ Future<User> fetchUserData() async {
     lastname: prefs.getString('lastname'),
     email: prefs.getString('email'),
     phone: prefs.getString('phone'),
+    referralCode: prefs.getString('referral_code'),
+    walletBalance: prefs.getDouble('wallet_balance'),
   );
 }
 
@@ -47,14 +51,14 @@ Future<Map<String, String?>> fetchLoginCreds() async {
 Future<void> persistLatLng(double latitude, double longitude) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setDouble('latitude', latitude);
-  prefs.setDouble('longtitude', longitude);
+  prefs.setDouble('longitude', longitude);
 }
 
 Future<Map<String, double>> fetchPersistedLatLng() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return {
     'latitude': prefs.getDouble('latitude') ?? 0,
-    'longitude': prefs.getDouble('longtitude') ?? 0
+    'longitude': prefs.getDouble('longitude') ?? 0
   };
 }
 
