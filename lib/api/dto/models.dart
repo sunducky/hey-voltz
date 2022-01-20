@@ -12,8 +12,18 @@ class User {
   String? email;
   @JsonKey()
   String? phone;
+  @JsonKey(name: 'referral_code')
+  String? referralCode;
+  @JsonKey(name: 'wallet_balance')
+  int? walletBalance;
 
-  User({this.firstname, this.lastname, this.email, this.phone});
+  User(
+      {this.firstname,
+      this.lastname,
+      this.email,
+      this.phone,
+      this.referralCode,
+      this.walletBalance});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);

@@ -163,15 +163,15 @@ class _ProfileFragmentState extends State<ProfileFragment> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    '₦0',
-                    style: TextStyle(
+                    '₦${user!.walletBalance}',
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'wallet balance',
                     style: TextStyle(
                       fontSize: 12,
@@ -335,8 +335,8 @@ class _ProfileFragmentState extends State<ProfileFragment> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
-                      'j1998w_zyx',
-                      style: TextStyle(
+                      '${user!.referralCode}',
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
