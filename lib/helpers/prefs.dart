@@ -18,7 +18,7 @@ Future<void> persistUserData(User user) async {
   prefs.setString('email', user.email!);
   prefs.setString('phone', user.phone!);
   prefs.setString('referral_code', user.referralCode!);
-  prefs.setInt('wallet_balance', user.walletBalance!);
+  prefs.setDouble('wallet_balance', user.walletBalance!);
 }
 
 Future<User> fetchUserData() async {
@@ -29,7 +29,7 @@ Future<User> fetchUserData() async {
     email: prefs.getString('email'),
     phone: prefs.getString('phone'),
     referralCode: prefs.getString('referral_code'),
-    walletBalance: prefs.getInt('wallet_balance'),
+    walletBalance: prefs.getDouble('wallet_balance'),
   );
 }
 

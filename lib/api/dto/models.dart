@@ -15,7 +15,7 @@ class User {
   @JsonKey(name: 'referral_code')
   String? referralCode;
   @JsonKey(name: 'wallet_balance')
-  int? walletBalance;
+  double? walletBalance;
 
   User(
       {this.firstname,
