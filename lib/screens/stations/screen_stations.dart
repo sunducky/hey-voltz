@@ -374,7 +374,7 @@ class _StationsScreenState extends State<StationsScreen> {
         stations.add(item);
       }
       // stations.sort((a, b) => a.length.compareTo(b.length));
-      stations.sort((a, b) => a['distance'] < b['distance']); //Sorting
+      stations.sort((a, b) => a['distance'].compareTo(b['distance'])); //Sorting
       setState(() {
         isApiLoading = false;
       });
