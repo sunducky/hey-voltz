@@ -70,3 +70,59 @@ class Coordinates {
       _$CoordinatesFromJson(json);
   Map<String, dynamic> toJson() => _$CoordinatesToJson(this);
 }
+
+@JsonSerializable()
+class Product {
+  int id;
+  String name;
+  String description;
+  double price;
+  List<Category> categories;
+  List<Image> images;
+
+  Product({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.categories,
+    required this.images,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
+}
+
+@JsonSerializable()
+class Category {
+  int id;
+  String name;
+  String description;
+  String image;
+
+  Category({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.image,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
+  Map<String, dynamic> toJson() => _$CategoryToJson(this);
+}
+
+@JsonSerializable()
+class Image {
+  int id;
+  String url;
+
+  Image({
+    required this.id,
+    required this.url,
+  });
+
+  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  Map<String, dynamic> toJson() => _$ImageToJson(this);
+}

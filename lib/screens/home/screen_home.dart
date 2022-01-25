@@ -4,6 +4,7 @@ import 'package:hey_voltz/helpers/prefs.dart';
 // import 'package:hey_voltz/screens/home/fragments/charge/fragment_charge.dart';
 // import 'package:hey_voltz/screens/home/fragments/home/fragment_home.dart';
 import 'package:hey_voltz/screens/home/fragments/map/fragment_map.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/fragment_store.dart';
 import 'package:hey_voltz/screens/home/fragments/profile/fragment_profile.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/values/drawables.dart';
@@ -26,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int activeIndex = 1;
+  int activeIndex = 2;
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var fragments = [
-      // HomeFragment(),
+      StoreFragment(),
       MapFragment(
         context: context,
         latitude: widget.latitude,
@@ -71,13 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       },
       items: [
-        // BottomNavigationBarItem(
-        //   label: 'Home',
-        //   icon: SvgPicture.asset(svgBottomNavHome,
-        //       height: 20, color: colorPrimary.withOpacity(0.5)),
-        //   activeIcon: SvgPicture.asset(svgBottomNavHome,
-        //       height: 20, color: colorPrimary),
-        // ),
+        BottomNavigationBarItem(
+          label: 'Store',
+          icon: SvgPicture.asset(svgBottomNavHome,
+              height: 20, color: colorPrimary.withOpacity(0.5)),
+          activeIcon: SvgPicture.asset(svgBottomNavHome,
+              height: 20, color: colorPrimary),
+        ),
         BottomNavigationBarItem(
           label: 'Map',
           icon: SvgPicture.asset(

@@ -62,3 +62,15 @@ class ResponseFetchFavoriteStations {
       _$ResponseFetchFavoriteStationsFromJson(json);
   Map<String, dynamic> toJson() => _$ResponseFetchFavoriteStationsToJson(this);
 }
+
+@JsonSerializable()
+class ResponseFetchProducts {
+  @JsonKey()
+  List<Product> products;
+
+  ResponseFetchProducts(this.products);
+
+  factory ResponseFetchProducts.fromJson(Map<String, dynamic> json) =>
+      _$ResponseFetchProductsFromJson(json);
+  Map<String, dynamic> toJson() => _$ResponseFetchProductsToJson(this);
+}
