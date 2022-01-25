@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       items: [
         BottomNavigationBarItem(
-          label: 'Home',
+          label: 'Store',
           icon: SvgPicture.asset(svgBottomNavHome,
               height: 20, color: colorPrimary.withOpacity(0.5)),
           activeIcon: SvgPicture.asset(svgBottomNavHome,
