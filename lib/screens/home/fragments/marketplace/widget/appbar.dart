@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hey_voltz/values/colors.dart';
 
 buildAppBarForMarketplace(var deviceWidth) {
@@ -33,5 +34,42 @@ buildAppBarForMarketplace(var deviceWidth) {
         ],
       ),
     ),
+  );
+}
+
+buildAppBar(
+  BuildContext context, {
+  showCartButton = true,
+  showBackButton = false,
+}) {
+  return AppBar(
+    backgroundColor: colorPrimary,
+    toolbarHeight: 80,
+    leading: (showBackButton)
+        ? IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.chevron_left_rounded,
+            ),
+          )
+        : const SizedBox(),
+    title: const Text(
+      'Voltz Store',
+      style: TextStyle(
+          fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+    ),
+    centerTitle: true,
+    actions: [
+      (showCartButton)
+          ? IconButton(
+              splashRadius: 25,
+              onPressed: () {},
+              icon: const Icon(
+                Icons.shopping_cart_rounded,
+                color: Colors.white,
+              ))
+          : const SizedBox(),
+      const SizedBox(width: 20)
+    ],
   );
 }

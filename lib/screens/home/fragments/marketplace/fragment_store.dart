@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hey_voltz/api/api_service.dart';
 import 'package:hey_voltz/api/dto/models.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/screen_product_info.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/toasty.dart';
 import 'package:provider/provider.dart';
@@ -103,81 +104,91 @@ class _StoreFragmentState extends State<StoreFragment> {
                       runSpacing: 10,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: List.generate(products.length, (index) {
-                        return Material(
-                          elevation: 2,
-                          child: Container(
-                            height: 250,
-                            width: (deviceWidth - 55) / 2,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  height: 150,
-                                  width: deviceWidth,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            products[index].images[0].url),
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ProductScreen(
+                                        product: products[index])));
+                          },
+                          child: Material(
+                            elevation: 2,
+                            child: Container(
+                              height: 250,
+                              width: (deviceWidth - 55) / 2,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 150,
                                     width: deviceWidth,
-                                    height: 100,
-                                    padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          products[index].name,
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          products[index].name,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey.withOpacity(0.5),
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '₦${products[index].name}',
-                                              style: const TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            const Text(
-                                              'View',
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                color: colorAccent,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              products[index].images[0].url),
+                                          fit: BoxFit.cover),
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: deviceWidth,
+                                      height: 100,
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            products[index].name,
+                                            style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            products[index].name,
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '₦${products[index].name}',
+                                                style: const TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const Spacer(),
+                                              const Text(
+                                                'View',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: colorAccent,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
