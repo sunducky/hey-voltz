@@ -155,7 +155,7 @@ class _StoreFragmentState extends State<StoreFragment> {
                                           ),
                                           const SizedBox(height: 10),
                                           Text(
-                                            products[index].name,
+                                            products[index].categories[0].name,
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -167,7 +167,7 @@ class _StoreFragmentState extends State<StoreFragment> {
                                           Row(
                                             children: [
                                               Text(
-                                                '₦${products[index].name}',
+                                                '₦${products[index].price}',
                                                 style: const TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
