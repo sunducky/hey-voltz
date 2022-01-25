@@ -56,3 +56,49 @@ Map<String, dynamic> _$CoordinatesToJson(Coordinates instance) =>
       'lat': instance.lat,
       'lon': instance.lon,
     };
+
+Product _$ProductFromJson(Map<String, dynamic> json) => Product(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      price: (json['price'] as num).toDouble(),
+      categories: (json['categories'] as List<dynamic>)
+          .map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      images: (json['images'] as List<dynamic>)
+          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'price': instance.price,
+      'categories': instance.categories,
+      'images': instance.images,
+    };
+
+Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      image: json['image'] as String,
+    );
+
+Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'image': instance.image,
+    };
+
+Image _$ImageFromJson(Map<String, dynamic> json) => Image(
+      id: json['id'] as int,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$ImageToJson(Image instance) => <String, dynamic>{
+      'id': instance.id,
+      'url': instance.url,
+    };

@@ -135,4 +135,18 @@ class _$ApiService extends ApiService {
         Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> fetchProducts(
+      String token, dynamic name, dynamic category) {
+    final $url = '/api/products';
+    final $params = <String, dynamic>{'name': name, 'category': category};
+    final $headers = {
+      'authorization': token,
+    };
+
+    final $request = Request('GET', $url, client.baseUrl,
+        parameters: $params, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

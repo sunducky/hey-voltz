@@ -8,6 +8,8 @@ import 'package:hey_voltz/screens/home/fragments/profile/fragment_profile.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/values/drawables.dart';
 
+import 'fragments/home/fragment_home.dart';
+
 class HomeScreen extends StatefulWidget {
   HomeScreen(
       {Key? key,
@@ -38,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var fragments = [
-      // HomeFragment(),
+      HomeFragment(),
       MapFragment(
         context: context,
         latitude: widget.latitude,
@@ -71,13 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       },
       items: [
-        // BottomNavigationBarItem(
-        //   label: 'Home',
-        //   icon: SvgPicture.asset(svgBottomNavHome,
-        //       height: 20, color: colorPrimary.withOpacity(0.5)),
-        //   activeIcon: SvgPicture.asset(svgBottomNavHome,
-        //       height: 20, color: colorPrimary),
-        // ),
+        BottomNavigationBarItem(
+          label: 'Home',
+          icon: SvgPicture.asset(svgBottomNavHome,
+              height: 20, color: colorPrimary.withOpacity(0.5)),
+          activeIcon: SvgPicture.asset(svgBottomNavHome,
+              height: 20, color: colorPrimary),
+        ),
         BottomNavigationBarItem(
           label: 'Map',
           icon: SvgPicture.asset(

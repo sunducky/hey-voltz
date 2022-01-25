@@ -61,3 +61,17 @@ Map<String, dynamic> _$ResponseFetchFavoriteStationsToJson(
     <String, dynamic>{
       'stations': instance.stations,
     };
+
+ResponseFetchProducts _$ResponseFetchProductsFromJson(
+        Map<String, dynamic> json) =>
+    ResponseFetchProducts(
+      (json['products'] as List<dynamic>)
+          .map((e) => Product.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$ResponseFetchProductsToJson(
+        ResponseFetchProducts instance) =>
+    <String, dynamic>{
+      'products': instance.products,
+    };

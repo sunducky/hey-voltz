@@ -63,6 +63,14 @@ abstract class ApiService extends ChopperService {
   @Post(path: '/change-password')
   Future<Response> changePassword(
       @Header('authorization') String token, @Body() body);
+
+  @Get(path: '/products')
+  Future<Response> fetchProducts(
+    @Header('authorization') String token,
+    @Query('name') name,
+    @Query('category') category,
+  );
+
   static ApiService create() {
     final client = ChopperClient(
       baseUrl: 'https://client.mrteey.com',
