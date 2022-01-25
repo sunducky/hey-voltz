@@ -4,11 +4,10 @@ import 'package:hey_voltz/helpers/prefs.dart';
 // import 'package:hey_voltz/screens/home/fragments/charge/fragment_charge.dart';
 // import 'package:hey_voltz/screens/home/fragments/home/fragment_home.dart';
 import 'package:hey_voltz/screens/home/fragments/map/fragment_map.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/fragment_store.dart';
 import 'package:hey_voltz/screens/home/fragments/profile/fragment_profile.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/values/drawables.dart';
-
-import 'fragments/home/fragment_home.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen(
@@ -28,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int activeIndex = 1;
+  int activeIndex = 2;
 
   @override
   void initState() {
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var fragments = [
-      HomeFragment(),
+      StoreFragment(),
       MapFragment(
         context: context,
         latitude: widget.latitude,

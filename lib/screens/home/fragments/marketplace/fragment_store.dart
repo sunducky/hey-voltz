@@ -1,27 +1,24 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hey_voltz/api/api_service.dart';
 import 'package:hey_voltz/api/dto/models.dart';
-import 'package:hey_voltz/api/dto/response.dart';
 import 'package:hey_voltz/helpers/prefs.dart';
-import 'package:hey_voltz/screens/home/fragments/home/widget/appbar.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/toasty.dart';
 import 'package:provider/provider.dart';
 
+import 'widget/appbar.dart';
 import 'widget/searchbox.dart';
 
-class HomeFragment extends StatefulWidget {
-  HomeFragment({
+class StoreFragment extends StatefulWidget {
+  StoreFragment({
     Key? key,
   }) : super(key: key);
 
   @override
-  _HomeFragmentState createState() => _HomeFragmentState();
+  _StoreFragmentState createState() => _StoreFragmentState();
 }
 
-class _HomeFragmentState extends State<HomeFragment> {
+class _StoreFragmentState extends State<StoreFragment> {
   final TextEditingController _controller = TextEditingController();
 
   List<Product> products = [];
