@@ -313,10 +313,8 @@ class _MapFragmentState extends State<MapFragment> {
     var pos = await fetchPersistedLatLng();
 
     await Provider.of<ApiService>(context, listen: false)
-        .getStations(
+        .getStationsForMap(
       token,
-      lat: pos['latitude'].toString(),
-      lng: pos['longitude'].toString(),
     )
         .then((response) {
       if (!response.isSuccessful) {

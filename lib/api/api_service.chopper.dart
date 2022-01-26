@@ -47,6 +47,17 @@ class _$ApiService extends ApiService {
   }
 
   @override
+  Future<Response<dynamic>> getStationsForMap(String token) {
+    final $url = '/api/stations';
+    final $headers = {
+      'authorization': token,
+    };
+
+    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> getFavoriteStations(String token) {
     final $url = '/api/favorites';
     final $headers = {
