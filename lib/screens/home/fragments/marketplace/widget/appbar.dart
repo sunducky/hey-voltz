@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/screen_cart.dart';
 import 'package:hey_voltz/values/colors.dart';
 
 buildAppBarForMarketplace(var deviceWidth) {
@@ -63,7 +64,8 @@ buildAppBar(
       (showCartButton)
           ? IconButton(
               splashRadius: 25,
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => CartScreen())),
               icon: const Icon(
                 Icons.shopping_cart_rounded,
                 color: Colors.white,
