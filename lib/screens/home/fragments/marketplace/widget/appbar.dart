@@ -48,6 +48,7 @@ buildAppBar(
   return AppBar(
     backgroundColor: colorPrimary,
     toolbarHeight: 80,
+    elevation: 0,
     leading: (showBackButton)
         ? IconButton(
             onPressed: () => Navigator.pop(context),

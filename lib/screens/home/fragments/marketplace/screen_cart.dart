@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/screen_checkout.dart';
 import 'package:hey_voltz/screens/home/fragments/marketplace/widget/appbar.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/button.dart';
 
+import 'widget/btm_bar.dart';
 import 'widget/cart_item.dart';
 
 class CartScreen extends StatefulWidget {
@@ -20,30 +22,10 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: buildAppBar(context,
           showBackButton: true, showCartButton: false, title: 'My Cart'),
-      bottomNavigationBar: Material(
-        elevation: 5,
-        color: Colors.white,
-        child: Container(
-          height: 80,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              Text(
-                'Total: ₦3000.12',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              ButtonPrimary(
-                label: 'Checkout',
-                width: 100,
-                onTap: () {},
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: BottomBar(
+        total: 3102.12,
+        onBtnPressed: () => Navigator.push(
+            context, MaterialPageRoute(builder: (_) => CheckoutScreen())),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
