@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/screen_cart.dart';
 import 'package:hey_voltz/values/colors.dart';
 
-buildAppBarForMarketplace(var deviceWidth) {
+buildAppBarForMarketplace(BuildContext context, var deviceWidth) {
   return Material(
     color: colorPrimary,
     elevation: 4,
@@ -25,7 +26,8 @@ buildAppBarForMarketplace(var deviceWidth) {
             alignment: Alignment.centerRight,
             child: IconButton(
                 splashRadius: 25,
-                onPressed: () {},
+                onPressed: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => CartScreen())),
                 icon: const Icon(
                   Icons.shopping_cart_rounded,
                   color: Colors.white,
@@ -41,6 +43,7 @@ buildAppBar(
   BuildContext context, {
   showCartButton = true,
   showBackButton = false,
+  String? title,
 }) {
   return AppBar(
     backgroundColor: colorPrimary,
@@ -53,9 +56,9 @@ buildAppBar(
             ),
           )
         : const SizedBox(),
-    title: const Text(
-      'Voltz Store',
-      style: TextStyle(
+    title: Text(
+      title ?? 'Voltz Store',
+      style: const TextStyle(
           fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
     ),
     centerTitle: true,
@@ -63,7 +66,8 @@ buildAppBar(
       (showCartButton)
           ? IconButton(
               splashRadius: 25,
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => CartScreen())),
               icon: const Icon(
                 Icons.shopping_cart_rounded,
                 color: Colors.white,

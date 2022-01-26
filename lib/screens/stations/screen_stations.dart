@@ -160,7 +160,7 @@ class _StationsScreenState extends State<StationsScreen> {
                             builder: (_) => HomeScreen(
                               latitude: stations[index]['lat'],
                               longitude: stations[index]['lng'],
-                              screenIndex: 0, //This opens up the map fragment
+                              screenIndex: 1, //This opens up the map fragment
                               station: stations[index],
                             ),
                           )),
@@ -250,7 +250,7 @@ class _StationsScreenState extends State<StationsScreen> {
                                           longitude: favorites[index]['station']
                                               ['lng'],
                                           screenIndex:
-                                              0, //This opens up the map fragment
+                                              1, //This opens up the map fragment
                                           station: favorites[index]['station'],
                                         ),
                                       )),
