@@ -83,7 +83,7 @@ class _StoreFragmentState extends State<StoreFragment> {
       child: Column(
         children: [
           //Appbar
-          buildAppBarForMarketplace(deviceWidth),
+          buildAppBarForMarketplace(context, deviceWidth),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
