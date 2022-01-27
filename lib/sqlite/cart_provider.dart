@@ -30,4 +30,8 @@ class CartProvider {
   Future<bool> deleteCartItem(CartItem cartItem) async {
     return await DBHelper.instance.deleteCartItem(cartItem: cartItem);
   }
+
+  Future<bool> clearCart() async {
+    return await DBHelper.instance.truncateCart();
+  }
 }

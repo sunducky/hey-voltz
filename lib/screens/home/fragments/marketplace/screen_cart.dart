@@ -40,7 +40,6 @@ class _CartScreenState extends State<CartScreen> {
       if (cartItems.isNotEmpty) {
         for (var item in cartItems) {
           cartTotal = cartTotal + (item.price * item.quantity);
-          print(cartTotal);
         }
       }
       setState(() {
