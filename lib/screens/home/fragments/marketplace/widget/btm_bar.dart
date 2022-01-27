@@ -29,7 +29,7 @@ class BottomBar extends StatelessWidget {
               children: [
                 (shippingFee > 0)
                     ? Text(
-                        '₦$total + Shipping: ₦$shippingFee',
+                        '₦${total.toStringAsFixed(2)} + Shipping: ₦${shippingFee.toStringAsFixed(2)}',
                         style: const TextStyle(
                           fontSize: 11,
                         ),
@@ -45,11 +45,13 @@ class BottomBar extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            ButtonPrimary(
-              label: 'Continue',
-              width: 100,
-              onTap: () => onBtnPressed(),
-            ),
+            (total < 1.0)
+                ? const SizedBox()
+                : ButtonPrimary(
+                    label: 'Continue',
+                    width: 100,
+                    onTap: () => onBtnPressed(),
+                  ),
           ],
         ),
       ),

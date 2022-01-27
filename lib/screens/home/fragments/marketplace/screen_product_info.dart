@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hey_voltz/api/dto/models.dart';
+import 'package:hey_voltz/screens/home/fragments/marketplace/screen_cart.dart';
+import 'package:hey_voltz/sqlite/cart_provider.dart';
 import 'package:hey_voltz/values/colors.dart';
+import 'package:hey_voltz/widgets/toasty.dart';
 
 import 'widget/appbar.dart';
 
@@ -8,9 +11,11 @@ class ProductScreen extends StatefulWidget {
   ProductScreen({
     Key? key,
     required this.product,
+    this.productID,
   }) : super(key: key);
 
   Product product;
+  int? productID;
 
   @override
   _ProductScreenState createState() => _ProductScreenState();
@@ -116,7 +121,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   }),
               const Spacer(),
               TextButton(
-                onPressed: () {},
+                onPressed: () => addToCart(),
                 child: const Text('Add to cart',
                     style: TextStyle(
                       color: colorAccent,
@@ -176,5 +181,21 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
       ),
     );
+  }
+
+  addToCart() async {
+    bool isSuccessful =
+        await CartProvider().addToCart(widget.product, quantity: quantity);
+    if (isSuccessful) {
+      Toasty(context).showToastSuccessMessage(
+          message: 'Item added to cart successfully',
+          duration: const Duration(seconds: 3));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => CartScreen()));
+    } else {
+      Toasty(context).showToastErrorMessage(
+          message: 'Could not add item to cart',
+          duration: const Duration(seconds: 3));
+    }
+    //Show dialog box here
   }
 }

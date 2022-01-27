@@ -3,12 +3,14 @@ import 'package:hey_voltz/sqlite/db_helper.dart';
 import 'package:hey_voltz/sqlite/models.dart';
 
 class CartProvider {
-  Future<List<CartItem>?> getCartItems() async {
+  Future<List<CartItem>> getCartItems() async {
+    List<CartItem> cartitems = [];
     await DBHelper.instance.getAllItems().then((value) {
-      return value;
+      cartitems = value;
     }).catchError((err) {
       print('CartProvider getCartItems --> ' + err.runtimeType.toString());
     });
+    return cartitems;
   }
 
   Future<bool> addToCart(Product product, {int quantity = 1}) async {

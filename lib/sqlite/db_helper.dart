@@ -32,7 +32,7 @@ class DBHelper {
       name TEXT,
       quantity INTEGER,
       image TEXT,
-      price DOUBLE,
+      price DOUBLE
     )
     ''');
   }
