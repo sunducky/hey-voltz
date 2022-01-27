@@ -5,6 +5,7 @@ import 'package:hey_voltz/screens/home/fragments/marketplace/widget/appbar.dart'
 import 'package:hey_voltz/sqlite/cart_provider.dart';
 import 'package:hey_voltz/values/colors.dart';
 import 'package:hey_voltz/widgets/button.dart';
+import 'package:hey_voltz/widgets/toasty.dart';
 
 import 'widget/btm_bar.dart';
 import 'widget/cart_item.dart';
@@ -30,11 +31,16 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   fetchCart() async {
+    // setState(() {
+    //   flag = false;
+    // });
     await CartProvider().getCartItems().then((value) {
       cartItems = value;
+      cartTotal = 0.0;
       if (cartItems.isNotEmpty) {
         for (var item in cartItems) {
           cartTotal = cartTotal + (item.price * item.quantity);
+          print(cartTotal);
         }
       }
       setState(() {
@@ -83,15 +89,37 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context, index) {
                       wee.CartItem item = cartItems[index];
                       return CartItem(
-                          itemID: item.id,
-                          itemName: item.name,
-                          itemImage: item.image,
-                          itemPrice: item.price,
-                          quantity: item.quantity);
+                        itemID: item.id,
+                        itemName: item.name,
+                        itemImage: item.image,
+                        itemPrice: item.price,
+                        quantity: item.quantity,
+                        onQtyChanged: () => fetchCart(),
+                        onDeleteTap: () {
+                          deleteCartItem(item, index);
+                        },
+                      );
                     }),
           ),
         ),
       ),
     );
+  }
+
+  deleteCartItem(wee.CartItem item, int index) async {
+    await CartProvider().deleteCartItem(item).then((isSuccessful) {
+      if (isSuccessful) {
+        Toasty(context).showToastMessage(message: 'Item removed');
+        cartItems.removeAt(index);
+      } else {
+        Toasty(context)
+            .showToastErrorMessage(message: 'Could not remove item from cart');
+      }
+    }).catchError((err) {
+      Toasty(context)
+          .showToastMessage(message: 'Err -> ' + err.runtimeType.toString());
+    });
+
+    fetchCart();
   }
 }

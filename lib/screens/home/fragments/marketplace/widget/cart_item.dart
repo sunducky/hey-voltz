@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hey_voltz/sqlite/cart_provider.dart';
+import 'package:hey_voltz/sqlite/models.dart' as m;
 import 'package:hey_voltz/values/colors.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
   CartItem({
     Key? key,
     required this.itemID,
@@ -9,6 +11,8 @@ class CartItem extends StatelessWidget {
     required this.itemImage,
     required this.itemPrice,
     required this.quantity,
+    required this.onDeleteTap,
+    required this.onQtyChanged,
   }) : super(key: key);
 
   int itemID;
@@ -16,7 +20,14 @@ class CartItem extends StatelessWidget {
   double itemPrice;
   String itemImage;
   int quantity;
+  Function() onDeleteTap;
+  VoidCallback onQtyChanged;
 
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +41,7 @@ class CartItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: colorAccentTwo,
               image: DecorationImage(
-                image: NetworkImage(itemImage),
+                image: NetworkImage(widget.itemImage),
               ),
             ),
           ),
@@ -39,14 +50,14 @@ class CartItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                itemName,
+                widget.itemName,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                '₦$itemPrice',
+                '₦${widget.itemPrice}',
                 style: const TextStyle(
                   fontSize: 13,
                 ),
@@ -59,25 +70,37 @@ class CartItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Icon(
-                  Icons.delete_forever,
-                  color: Colors.red,
-                  size: 20,
+                GestureDetector(
+                  onTap: widget.onDeleteTap,
+                  child: const Icon(
+                    Icons.delete_forever,
+                    color: Colors.red,
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
-                      Icons.remove_rounded,
-                      color: colorAccentTwo,
-                      size: 25,
-                    ),
-                    Text('$quantity', style: const TextStyle(fontSize: 16)),
-                    const Icon(
-                      Icons.add_rounded,
-                      color: colorAccentTwo,
-                      size: 25,
+                    (widget.quantity > 1)
+                        ? GestureDetector(
+                            onTap: () => decreaseQty(),
+                            child: const Icon(
+                              Icons.remove_rounded,
+                              color: colorAccentTwo,
+                              size: 25,
+                            ),
+                          )
+                        : const SizedBox(width: 25),
+                    Text('${widget.quantity}',
+                        style: const TextStyle(fontSize: 16)),
+                    GestureDetector(
+                      onTap: () => increaseQty(),
+                      child: const Icon(
+                        Icons.add_rounded,
+                        color: colorAccentTwo,
+                        size: 25,
+                      ),
                     ),
                   ],
                 ),
@@ -87,5 +110,53 @@ class CartItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  decreaseQty() async {
+    widget.quantity -= 1;
+    m.CartItem cartItem = m.CartItem(
+        id: widget.itemID,
+        quantity: widget.quantity,
+        image: widget.itemImage,
+        name: widget.itemName,
+        price: widget.itemPrice);
+    await CartProvider().updateCartItem(cartItem).then((isSuccessful) {
+      if (isSuccessful) {
+        setState(() {
+          //happy
+        });
+        widget.onQtyChanged();
+      } else {
+        //Revert value back to normal
+        widget.quantity += 1;
+      }
+    }).catchError((err) {
+      widget.quantity += 1;
+      print('CartItem err -> ' + err.runtimeType.toString());
+    });
+  }
+
+  increaseQty() async {
+    widget.quantity += 1;
+    m.CartItem cartItem = m.CartItem(
+        id: widget.itemID,
+        quantity: widget.quantity,
+        image: widget.itemImage,
+        name: widget.itemName,
+        price: widget.itemPrice);
+    await CartProvider().updateCartItem(cartItem).then((isSuccessful) {
+      if (isSuccessful) {
+        widget.onQtyChanged();
+        setState(() {
+          //happy
+        });
+      } else {
+        //Revert value back to normal
+        widget.quantity -= 1;
+      }
+    }).catchError((err) {
+      widget.quantity -= 1;
+      print('CartItem err -> ' + err.runtimeType.toString());
+    });
   }
 }
