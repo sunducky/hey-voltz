@@ -29,9 +29,9 @@ class CartItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: colorAccentTwo,
-              // image: DecorationImage(
-              //   image: NetworkImage(widget.imageUrl),
-              // ),
+              image: DecorationImage(
+                image: NetworkImage(itemImage),
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -68,13 +68,13 @@ class CartItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.remove_rounded,
                       color: colorAccentTwo,
                       size: 25,
                     ),
-                    Text('$quantity', style: TextStyle(fontSize: 16)),
-                    Icon(
+                    Text('$quantity', style: const TextStyle(fontSize: 16)),
+                    const Icon(
                       Icons.add_rounded,
                       color: colorAccentTwo,
                       size: 25,
