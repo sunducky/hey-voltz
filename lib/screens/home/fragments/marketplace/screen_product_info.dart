@@ -126,13 +126,15 @@ class _ProductScreenState extends State<ProductScreen> {
                           })
                   : const SizedBox(),
               const Spacer(),
-              TextButton(
-                onPressed: () => addToCart(),
-                child: const Text('Add to cart',
-                    style: TextStyle(
-                      color: colorAccent,
-                    )),
-              )
+              (widget.product.stock > 0)
+                  ? TextButton(
+                      onPressed: () => addToCart(),
+                      child: const Text('Add to cart',
+                          style: TextStyle(
+                            color: colorAccent,
+                          )),
+                    )
+                  : const SizedBox()
             ],
           ),
         ),
