@@ -73,6 +73,12 @@ abstract class ApiService extends ChopperService {
     @Query('category') category,
   );
 
+  @Post(path: '/place-order')
+  Future<Response> placeOrder(
+    @Header('authorization') String token,
+    @Body() body,
+  );
+
   static ApiService create() {
     final client = ChopperClient(
       baseUrl: 'https://client.mrteey.com',

@@ -90,4 +90,11 @@ class DBHelper {
         .delete('cart', where: 'id = ?', whereArgs: [cartItem.id]);
     return count > 0;
   }
+
+  //TRUNCATE TABLE
+  Future<bool> truncateCart() async {
+    _database ??= await instance.database;
+    int count = await _database!.delete('cart');
+    return count > 0;
+  }
 }
