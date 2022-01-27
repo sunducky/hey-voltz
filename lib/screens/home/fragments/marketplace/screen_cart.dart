@@ -77,9 +77,14 @@ class _CartScreenState extends State<CartScreen> {
           child: Container(
             padding: const EdgeInsets.all(20),
             child: (cartItems.isEmpty)
-                ? Center(
-                    child: Text(
-                        'There are no items in your cart. Please add some items to proceed'),
+                ? const Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Center(
+                      child: Text(
+                        'There are no items in your cart. Please add some items to proceed',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
@@ -91,6 +96,7 @@ class _CartScreenState extends State<CartScreen> {
                         itemID: item.id,
                         itemName: item.name,
                         itemImage: item.image,
+                        itemStock: item.stock,
                         itemPrice: item.price,
                         quantity: item.quantity,
                         onQtyChanged: () => fetchCart(),

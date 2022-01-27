@@ -421,6 +421,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       if (response.isSuccessful) {
         Toasty(context).showToastSuccessMessage(
             message: 'Order has been placed successfully');
+        user.walletBalance = user.walletBalance! - cartTotal;
+        await persistUserData(user);
         var pos = await fetchPersistedLatLng();
         bool cleared = await CartProvider().clearCart();
         if (cleared) {
