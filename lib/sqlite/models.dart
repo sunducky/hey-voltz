@@ -6,6 +6,7 @@ part 'models.g.dart';
 class CartItem {
   int id;
   int quantity;
+  int stock;
   String name;
   String image;
   double price;
@@ -16,6 +17,7 @@ class CartItem {
     required this.name,
     required this.image,
     required this.price,
+    required this.stock,
   });
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>

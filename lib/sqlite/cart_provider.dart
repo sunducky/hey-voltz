@@ -18,6 +18,7 @@ class CartProvider {
         id: product.id,
         name: product.name,
         image: product.images[0].url,
+        stock: product.stock,
         price: product.price,
         quantity: quantity);
     return await DBHelper.instance.addToCart(cartItem);

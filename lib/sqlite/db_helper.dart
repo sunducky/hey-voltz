@@ -31,6 +31,7 @@ class DBHelper {
       id INTEGER PRIMARY KEY,      
       name TEXT,
       quantity INTEGER,
+      stock INTEGER,
       image TEXT,
       price DOUBLE
     )

@@ -10,12 +10,14 @@ class CartItem extends StatefulWidget {
     required this.itemName,
     required this.itemImage,
     required this.itemPrice,
+    required this.itemStock,
     required this.quantity,
     required this.onDeleteTap,
     required this.onQtyChanged,
   }) : super(key: key);
 
   int itemID;
+  int itemStock;
   String itemName;
   double itemPrice;
   String itemImage;
@@ -94,14 +96,16 @@ class _CartItemState extends State<CartItem> {
                         : const SizedBox(width: 25),
                     Text('${widget.quantity}',
                         style: const TextStyle(fontSize: 16)),
-                    GestureDetector(
-                      onTap: () => increaseQty(),
-                      child: const Icon(
-                        Icons.add_rounded,
-                        color: colorAccentTwo,
-                        size: 25,
-                      ),
-                    ),
+                    (widget.quantity >= widget.itemStock)
+                        ? const SizedBox(width: 25)
+                        : GestureDetector(
+                            onTap: () => increaseQty(),
+                            child: const Icon(
+                              Icons.add_rounded,
+                              color: colorAccentTwo,
+                              size: 25,
+                            ),
+                          ),
                   ],
                 ),
               ],
@@ -117,6 +121,7 @@ class _CartItemState extends State<CartItem> {
     m.CartItem cartItem = m.CartItem(
         id: widget.itemID,
         quantity: widget.quantity,
+        stock: widget.itemStock,
         image: widget.itemImage,
         name: widget.itemName,
         price: widget.itemPrice);
@@ -137,11 +142,15 @@ class _CartItemState extends State<CartItem> {
   }
 
   increaseQty() async {
+    if (widget.quantity == widget.itemStock) {
+      return;
+    }
     widget.quantity += 1;
     m.CartItem cartItem = m.CartItem(
         id: widget.itemID,
         quantity: widget.quantity,
         image: widget.itemImage,
+        stock: widget.itemStock,
         name: widget.itemName,
         price: widget.itemPrice);
     await CartProvider().updateCartItem(cartItem).then((isSuccessful) {

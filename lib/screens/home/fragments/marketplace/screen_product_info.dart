@@ -94,31 +94,37 @@ class _ProductScreenState extends State<ProductScreen> {
                     fontWeight: FontWeight.bold,
                   )),
               const SizedBox(width: 15),
-              (quantity > 1)
-                  ? qtyBtn(
-                      icon: Icons.remove_rounded,
-                      onTap: () {
-                        setState(() {
-                          quantity--;
-                        });
-                      })
+              (widget.product.stock > 0)
+                  ? (quantity > 1)
+                      ? qtyBtn(
+                          icon: Icons.remove_rounded,
+                          onTap: () {
+                            setState(() {
+                              quantity--;
+                            });
+                          })
+                      : const SizedBox(width: 30)
                   : const SizedBox(width: 30),
               const SizedBox(width: 15),
               Text(
-                '$quantity',
+                (widget.product.stock > 0) ? '$quantity' : 'Out Of Stock',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(width: 15),
-              qtyBtn(
-                  icon: Icons.add_rounded,
-                  onTap: () {
-                    setState(() {
-                      quantity++;
-                    });
-                  }),
+              (widget.product.stock > 0)
+                  ? (quantity >= widget.product.stock)
+                      ? const SizedBox()
+                      : qtyBtn(
+                          icon: Icons.add_rounded,
+                          onTap: () {
+                            setState(() {
+                              quantity++;
+                            });
+                          })
+                  : const SizedBox(),
               const Spacer(),
               TextButton(
                 onPressed: () => addToCart(),
