@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
       {Key? key,
       required this.latitude,
       required this.longitude,
-      this.screenIndex = 1,
+      this.screenIndex = 2,
       this.station})
       : super(key: key);
 
